@@ -9,9 +9,12 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/UICoponent" />
+            <option value="$PROJECT_DIR$/UIElement" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/movieList" />
             <option value="$PROJECT_DIR$/network" />
           </set>
         </option>
