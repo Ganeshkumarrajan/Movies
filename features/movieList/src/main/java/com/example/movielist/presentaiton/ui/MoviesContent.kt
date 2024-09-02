@@ -132,18 +132,19 @@ private fun MovieImage(movie: MovieUIModel) {
 }
 
 
-//@Preview(showBackground = true)
-//@Composable
-//fun MovieItemPreview() {
-//    val movie = MovieUIModel(
-//        id = 1,
-//        title = "Sample Movie",
-//        description = "This is a sample movie description.",
-//        year = "2023",
-//        image = "https://test"
-//    )
-//    MovieItem(movie = movie)
-//}
+@Preview(showBackground = true)
+@Composable
+fun MovieItemPreview() {
+    val movie = MovieUIModel(
+        id = 1,
+        title = "Sample Movie",
+        description = "This is a sample movie description.",
+        year = "2023",
+        image = "https://test"
+    )
+    MovieItem(movie = movie,
+        modifier = Modifier, {})
+}
 
 @Preview(showBackground = true)
 @Composable
