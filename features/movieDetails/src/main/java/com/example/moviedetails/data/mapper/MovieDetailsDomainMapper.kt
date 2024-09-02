@@ -1,6 +1,6 @@
 package com.example.moviedetails.data.mapper
 
-import com.example.common.DomainMapper
+import com.example.common.mapper.DomainMapper
 import com.example.moviedetails.data.model.MovieDetail
 import com.example.moviedetails.domain.model.GenreDomain
 import com.example.moviedetails.domain.model.MovieDetailsDomain

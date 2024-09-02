@@ -1,7 +1,7 @@
 package com.example.movielist.di
 
-import com.example.common.DomainMapper
-import com.example.common.UIMapper
+import com.example.common.mapper.DomainMapper
+import com.example.common.mapper.UIMapper
 import com.example.movielist.data.mapper.MovieListMapper
 import com.example.movielist.data.model.ResultDTO
 import com.example.movielist.data.repository.MovieRepositoryImpl

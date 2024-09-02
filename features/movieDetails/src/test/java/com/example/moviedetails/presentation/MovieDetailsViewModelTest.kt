@@ -2,8 +2,8 @@ package com.example.moviedetails.presentation
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
-import com.example.common.Result
-import com.example.common.UIMapper
+import com.example.common.utils.Result
+import com.example.common.mapper.UIMapper
 import com.example.moviedetails.utils.MainDispatcherRule
 import com.example.moviedetails.data.repository.MovieDetailsRepositoryImpl
 import com.example.moviedetails.domain.model.MovieDetailsDomain

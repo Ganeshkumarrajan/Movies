@@ -1,4 +1,4 @@
-package com.example.common
+package com.example.common.mapper
 
 
 interface DomainMapper<in I, out O> {

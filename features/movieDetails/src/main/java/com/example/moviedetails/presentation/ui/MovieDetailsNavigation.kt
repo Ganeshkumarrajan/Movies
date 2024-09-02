@@ -6,8 +6,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.common.NetWorkConstants.MOVIE_ID
-import com.example.common.Screen
+import com.example.common.utils.NetWorkConstants.MOVIE_ID
+import com.example.common.navigation.Screen
 
 fun NavGraphBuilder.movieDetailsScreen(navController: NavController) {
     composable(

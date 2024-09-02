@@ -1,7 +1,7 @@
 package com.example.moviedetails.di
 
-import com.example.common.DomainMapper
-import com.example.common.UIMapper
+import com.example.common.mapper.DomainMapper
+import com.example.common.mapper.UIMapper
 import com.example.moviedetails.data.mapper.MovieDetailsDomainMapper
 import com.example.moviedetails.data.model.MovieDetail
 import com.example.moviedetails.data.repository.MovieDetailsRepositoryImpl

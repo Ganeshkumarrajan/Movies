@@ -1,4 +1,4 @@
-package com.example.common
+package com.example.common.utils
 
 object NetWorkConstants {
     // replace API key with valid API key
