@@ -87,8 +87,15 @@ dependencies {
     ksp(libs.moshi.kotlin.codegen)
 
     //Coil
-    implementation (libs.coil.compose)
-    implementation (libs.lifecycle.compose)
+    implementation(libs.coil.compose)
+    implementation(libs.lifecycle.compose)
 
-
+    // Local unit tests
+    testImplementation(libs.androidx.core)
+    testImplementation(libs.junit)
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.truth)
+    testImplementation(libs.mockk)
+    testImplementation (libs.turbine)
 }

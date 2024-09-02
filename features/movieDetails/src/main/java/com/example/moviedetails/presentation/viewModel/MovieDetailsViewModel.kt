@@ -11,8 +11,10 @@ import kotlinx.coroutines.flow.stateIn
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.common.NetWorkConstants.MOVIE_ID
+import com.example.common.UIMapper
+import com.example.moviedetails.domain.model.MovieDetailsDomain
 import com.example.moviedetails.domain.usecase.MovieDetailsUseCases
-import com.example.moviedetails.mapper.MovieDetailUIMapper
+import com.example.moviedetails.presentation.model.MovieDetailsUi
 import com.example.moviedetails.presentation.ui.MovieDetailsEvents
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -23,7 +25,7 @@ import javax.inject.Inject
 class MovieDetailsViewModel @Inject constructor(
     private val movieDetailsUseCase: MovieDetailsUseCases,
     savedStateHandle: SavedStateHandle,
-    private val mapper: MovieDetailUIMapper
+    private val mapper: UIMapper<@JvmSuppressWildcards MovieDetailsDomain,MovieDetailsUi>
 
 ) : ViewModel() {
     private val _state = MutableStateFlow<MovieDetailsUIState>(MovieDetailsUIState.Loading)
