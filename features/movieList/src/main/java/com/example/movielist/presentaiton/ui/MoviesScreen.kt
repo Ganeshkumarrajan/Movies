@@ -6,11 +6,12 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.movielist.presentaiton.viewModel.MoviesViewModel
 
 @Composable
-fun MoviesScreen() {
+fun MoviesScreen(onNavigateDetailScreen: (String) -> Unit) {
     val viewModel: MoviesViewModel = hiltViewModel()
     val trendingMoviesPagingItem = viewModel.state.collectAsLazyPagingItems()
 
     MoviesContent(
         moviePagingItem = trendingMoviesPagingItem,
+        onNavigateDetailScreen = onNavigateDetailScreen
     )
 }
