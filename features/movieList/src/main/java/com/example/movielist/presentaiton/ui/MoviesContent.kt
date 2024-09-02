@@ -12,6 +12,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,13 +21,20 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.example.movielist.R
 import com.example.movielist.presentaiton.model.MovieUIModel
-import com.example.uielement.*
+import com.example.uielement.views.ErrorView
+import com.example.uielement.views.ImageLoader
+import com.example.uielement.views.LabelText
+import com.example.uielement.views.SpinnerView
+import com.example.uielement.views.SpinnerViewWithText
+import com.example.uielement.views.SubTitleText
+import com.example.uielement.views.TitleText
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MoviesContent(
     moviePagingItem: LazyPagingItems<MovieUIModel>,
     modifier: Modifier = Modifier,
+    onNavigateDetailScreen: (String) -> Unit
 ) {
     var showDialog by remember { mutableStateOf(true) }
     val listState = rememberLazyListState()
@@ -47,7 +56,8 @@ fun MoviesContent(
                             modifier = Modifier
                                 .animateItemPlacement()
                                 .fillMaxWidth()
-                                .padding(8.dp)
+                                .padding(8.dp),
+                            onNavigateDetailScreen = onNavigateDetailScreen
                         )
                     }
                 }
@@ -80,6 +90,7 @@ fun MoviesContent(
 private fun MovieItem(
     movie: MovieUIModel,
     modifier: Modifier = Modifier,
+    onNavigateDetailScreen: (String) -> Unit
 ) {
     Card(
         modifier = modifier,
@@ -89,7 +100,9 @@ private fun MovieItem(
     ) {
         Row(
             modifier = Modifier
-                .clickable { /* Handle click here */ }
+                .clickable {
+                    onNavigateDetailScreen(movie.id.toString())
+                }
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -109,7 +122,13 @@ private fun MovieItem(
 
 @Composable
 private fun MovieImage(movie: MovieUIModel) {
-    ImageLoader(movie.image)
+    ImageLoader(
+        Modifier
+            .size(100.dp, 150.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .background(Color.LightGray),
+        movie.image,
+    )
 }
 
 
@@ -123,7 +142,8 @@ fun MovieItemPreview() {
         year = "2023",
         image = "https://test"
     )
-    MovieItem(movie = movie)
+    MovieItem(movie = movie,
+        modifier = Modifier, {})
 }
 
 @Preview(showBackground = true)

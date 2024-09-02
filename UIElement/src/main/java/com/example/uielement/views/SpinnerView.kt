@@ -1,4 +1,4 @@
-package com.example.uielement
+package com.example.uielement.views
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,7 +22,6 @@ fun SpinnerViewWithText(modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-
         Column(
             modifier = modifier,
             verticalArrangement = Arrangement.Center,
@@ -47,7 +46,6 @@ fun SpinnerView(modifier: Modifier = Modifier) {
             .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
-
         Column(
             modifier = modifier,
             verticalArrangement = Arrangement.Center,

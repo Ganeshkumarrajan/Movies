@@ -1,25 +1,19 @@
 plugins {
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.jetbrainsKotlinKapt)
 }
 
 android {
-    namespace = "com.example.movies"
+    namespace = "com.example.moviedetails"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.movies"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -42,38 +36,39 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
+        kotlinCompilerExtensionVersion = "1.5.0"
     }
 }
 
 dependencies {
-    implementation(libs.androidx.appcompat)
 
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation(libs.androidx.ui.tooling.preview)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
-
+    implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-   // debugImplementation(libs.ui.tooling)
-
+    debugImplementation(libs.ui.tooling)
 
     implementation(project(":common"))
-    implementation(project(":features:movieList"))
-    implementation(project(":features:movieDetails"))
-    implementation(project(":network"))
     implementation(project(":UIElement"))
+    implementation(project(":network"))
 
     // Dependency Injection - Hilt
     implementation(libs.hilt.android)
@@ -89,15 +84,11 @@ dependencies {
     // Moshi for parsing the JSON format
     implementation(libs.moshi)
     implementation(libs.moshi.kotlin)
-   // ksp(libs.moshi.kotlin.codegen)
-
-    // Paging 3
-    implementation (libs.paging.runtime)
-    implementation (libs.paging.compose)
+    ksp(libs.moshi.kotlin.codegen)
 
     //Coil
     implementation (libs.coil.compose)
-    implementation(libs.navigation.compose)
+    implementation (libs.lifecycle.compose)
 
-    testImplementation(libs.junit)
+
 }

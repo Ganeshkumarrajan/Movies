@@ -1,14 +1,10 @@
 package com.example.movielist.presentaiton.mapper
 
 import com.example.common.NetWorkConstants
+import com.example.common.UIMapper
 import com.example.movielist.domain.model.MovieDomain
 import com.example.movielist.presentaiton.model.MovieUIModel
 import javax.inject.Inject
-
-
-interface UIMapper<in I, out O> {
-    fun toUiModel(entity: I): O
-}
 
 class MovieListUIMapper @Inject constructor() : UIMapper<MovieDomain, MovieUIModel> {
     override fun toUiModel(entity: MovieDomain): MovieUIModel =

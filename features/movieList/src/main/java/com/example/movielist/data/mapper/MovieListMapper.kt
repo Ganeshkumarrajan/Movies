@@ -1,5 +1,6 @@
 package com.example.movielist.data.mapper
 
+import com.example.common.DomainMapper
 import com.example.movielist.data.model.ResultDTO
 import com.example.movielist.domain.model.MovieDomain
 import javax.inject.Inject
@@ -12,5 +13,4 @@ class MovieListMapper @Inject constructor() : DomainMapper<ResultDTO, MovieDomai
             description = entity.overview ?: "",
             year = entity.releaseDate ?: ""
         )
-
 }
