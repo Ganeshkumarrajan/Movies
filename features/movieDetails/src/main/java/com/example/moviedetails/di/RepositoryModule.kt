@@ -1,12 +1,15 @@
 package com.example.moviedetails.di
 
 import com.example.common.DomainMapper
+import com.example.common.UIMapper
 import com.example.moviedetails.data.mapper.MovieDetailsDomainMapper
 import com.example.moviedetails.data.model.MovieDetail
 import com.example.moviedetails.data.repository.MovieDetailsRepositoryImpl
 import com.example.moviedetails.data.service.MovieDetailsAPIService
 import com.example.moviedetails.domain.model.MovieDetailsDomain
 import com.example.moviedetails.domain.repository.MovieDetailsRepository
+import com.example.moviedetails.presentation.mapper.MovieDetailUIMapper
+import com.example.moviedetails.presentation.model.MovieDetailsUi
 
 import dagger.Module
 import dagger.Provides
@@ -34,5 +37,11 @@ object RepositoryModule {
     @Singleton
     fun provideMovieDetailsMapper(): DomainMapper<MovieDetail, MovieDetailsDomain> {
         return MovieDetailsDomainMapper()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMovieDetailsUIMapper(): UIMapper<@JvmSuppressWildcards MovieDetailsDomain, MovieDetailsUi> {
+        return MovieDetailUIMapper()
     }
 }

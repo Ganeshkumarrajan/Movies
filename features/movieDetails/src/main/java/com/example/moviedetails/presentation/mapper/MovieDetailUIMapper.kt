@@ -1,4 +1,4 @@
-package com.example.moviedetails.mapper
+package com.example.moviedetails.presentation.mapper
 
 import com.example.common.NetWorkConstants.IMAGE_BASE_URL_MEDIUM_ABSOLUTE
 import com.example.common.UIMapper
