@@ -1,6 +1,6 @@
 package com.example.moviedetails.data.service
 
-import com.example.common.NetWorkConstants
+import com.example.common.utils.NetWorkConstants
 import com.example.moviedetails.data.model.MovieDetail
 import retrofit2.http.GET
 import retrofit2.http.Path

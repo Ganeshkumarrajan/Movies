@@ -1,7 +1,7 @@
 package com.example.movielist.presentaiton.mapper
 
-import com.example.common.NetWorkConstants
-import com.example.common.UIMapper
+import com.example.common.utils.NetWorkConstants
+import com.example.common.mapper.UIMapper
 import com.example.movielist.domain.model.MovieDomain
 import com.example.movielist.presentaiton.model.MovieUIModel
 import javax.inject.Inject

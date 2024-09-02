@@ -1,7 +1,7 @@
 package com.example.moviedetails.data.repository
 
-import com.example.common.DomainMapper
-import com.example.common.Result
+import com.example.common.mapper.DomainMapper
+import com.example.common.utils.Result
 import com.example.moviedetails.data.model.MovieDetail
 import com.example.moviedetails.data.service.MovieDetailsAPIService
 import com.example.moviedetails.domain.model.MovieDetailsDomain

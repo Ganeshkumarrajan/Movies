@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import javax.inject.Singleton
-import com.example.common.NetWorkConstants
+import com.example.common.utils.NetWorkConstants
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.hilt.components.SingletonComponent

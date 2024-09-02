@@ -5,8 +5,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.filter
 import androidx.paging.map
-import com.example.common.DomainMapper
-import com.example.common.NetWorkConstants
+import com.example.common.mapper.DomainMapper
+import com.example.common.utils.NetWorkConstants
 import com.example.movielist.data.service.MovieListAPIService
 import com.example.movielist.data.datasource.MovieDataSource
 import com.example.movielist.data.model.ResultDTO

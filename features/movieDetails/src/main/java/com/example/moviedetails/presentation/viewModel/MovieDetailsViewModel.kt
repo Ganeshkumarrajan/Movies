@@ -1,7 +1,7 @@
 package com.example.moviedetails.presentation.viewModel
 
 import androidx.lifecycle.SavedStateHandle
-import com.example.common.Result
+import com.example.common.utils.Result
 import com.example.moviedetails.presentation.model.MovieDetailsUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.common.NetWorkConstants.MOVIE_ID
-import com.example.common.UIMapper
+import com.example.common.utils.NetWorkConstants.MOVIE_ID
+import com.example.common.mapper.UIMapper
 import com.example.moviedetails.domain.model.MovieDetailsDomain
 import com.example.moviedetails.domain.usecase.MovieDetailsUseCases
 import com.example.moviedetails.presentation.model.MovieDetailsUi
@@ -25,7 +25,7 @@ import javax.inject.Inject
 class MovieDetailsViewModel @Inject constructor(
     private val movieDetailsUseCase: MovieDetailsUseCases,
     savedStateHandle: SavedStateHandle,
-    private val mapper: UIMapper<@JvmSuppressWildcards MovieDetailsDomain,MovieDetailsUi>
+    private val mapper: UIMapper<@JvmSuppressWildcards MovieDetailsDomain, MovieDetailsUi>
 
 ) : ViewModel() {
     private val _state = MutableStateFlow<MovieDetailsUIState>(MovieDetailsUIState.Loading)
@@ -48,10 +48,8 @@ class MovieDetailsViewModel @Inject constructor(
                 viewModelScope.launch {
                     getMovies(event.movieID)
                 }
-
             }
         }
-
     }
 
     private fun getMovies(movieId: Int) {

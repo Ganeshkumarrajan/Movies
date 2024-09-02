@@ -3,15 +3,12 @@ package com.example.movies
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.example.common.Screen
+import com.example.common.navigation.Screen
 import com.example.moviedetails.presentation.ui.movieDetailsScreen
-import com.example.movielist.presentaiton.ui.MoviesScreen
 import com.example.movielist.presentaiton.ui.moviesScreen
 import com.example.uielement.theme.MoviesTheme
 import dagger.hilt.android.AndroidEntryPoint
