@@ -1,11 +1,11 @@
 package com.example.movielist.presentaiton.ui
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -29,14 +29,13 @@ import com.example.uielement.views.SpinnerViewWithText
 import com.example.uielement.views.SubTitleText
 import com.example.uielement.views.TitleText
 
-@OptIn(ExperimentalFoundationApi::class)
+
 @Composable
 fun MoviesContent(
-    moviePagingItem: LazyPagingItems<MovieUIModel>,
     modifier: Modifier = Modifier,
+    movies: LazyPagingItems<MovieUIModel>,
     onNavigateDetailScreen: (String) -> Unit
 ) {
-    var showDialog by remember { mutableStateOf(true) }
     val listState = rememberLazyListState()
 
     Box(
@@ -44,34 +43,57 @@ fun MoviesContent(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        if (moviePagingItem.itemCount > 0) {
-            LazyColumn(
-                state = listState,
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                items(moviePagingItem.itemCount) { index ->
-                    moviePagingItem[index]?.let { movie ->
-                        MovieItem(
-                            movie = movie,
-                            modifier = Modifier
-                                .animateItemPlacement()
-                                .fillMaxWidth()
-                                .padding(8.dp),
-                            onNavigateDetailScreen = onNavigateDetailScreen
-                        )
-                    }
+        MovieList(
+            movies = movies,
+            listState = listState,
+            onNavigateDetailScreen = onNavigateDetailScreen
+        )
+        MovieLoadingState(movies = movies)
+    }
+}
+
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun MovieList(
+    movies: LazyPagingItems<MovieUIModel>,
+    listState: LazyListState,
+    onNavigateDetailScreen: (String) -> Unit
+) {
+    if (movies.itemCount > 0) {
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            items(movies.itemCount) { index ->
+                movies[index]?.let { movie ->
+                    MovieItem(
+                        movie = movie,
+                        modifier = Modifier
+                            .animateItemPlacement()
+                            .padding(8.dp),
+                        onNavigateDetailScreen = onNavigateDetailScreen
+                    )
                 }
             }
         }
+    }
+}
 
-        when (val refreshState = moviePagingItem.loadState.refresh) {
+
+@Composable
+fun MovieLoadingState(movies: LazyPagingItems<MovieUIModel>) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        when (val refreshState = movies.loadState.refresh) {
             is LoadState.Loading -> SpinnerViewWithText()
+
             is LoadState.Error -> {
-                AnimatedVisibility(visible = showDialog) {
+                var showDialog by remember { mutableStateOf(true) }
+                if (showDialog) {
                     ErrorView(
                         errorMessage = refreshState.error.localizedMessage
                             ?: stringResource(R.string.error_occurred),
-                        onRetryClick = { moviePagingItem.retry() },
+                        onRetryClick = { movies.retry() },
                         onDismiss = { showDialog = false }
                     )
                 }
@@ -80,7 +102,7 @@ fun MoviesContent(
             else -> Unit
         }
 
-        if (moviePagingItem.loadState.append is LoadState.Loading) {
+        if (movies.loadState.append is LoadState.Loading) {
             SpinnerView(modifier = Modifier.align(Alignment.BottomCenter))
         }
     }
@@ -139,11 +161,12 @@ fun MovieItemPreview() {
         id = 1,
         title = "Sample Movie",
         description = "This is a sample movie description.",
-        year = "2023",
+        year = "2026",
         image = "https://test"
     )
     MovieItem(movie = movie,
-        modifier = Modifier, {})
+        modifier = Modifier
+    ) {}
 }
 
 @Preview(showBackground = true)
@@ -153,7 +176,7 @@ fun MovieImagePreview() {
         id = 1,
         title = "Sample Movie",
         description = "This is a sample movie description.",
-        year = "2023",
+        year = "2026",
         image = "https://test"
     )
     MovieImage(movie = movie)
