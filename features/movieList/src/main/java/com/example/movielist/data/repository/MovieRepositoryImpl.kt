@@ -23,7 +23,7 @@ class MovieRepositoryImpl @Inject constructor(
     private val mapper: DomainMapper<ResultDTO, MovieDomain>
 
 ) : MovieRepository {
-    override fun getMovies(): Flow<PagingData<MovieDomain>> {
+    override suspend fun getMovies(): Flow<PagingData<MovieDomain>> {
         return Pager(
             config = PagingConfig(
                 pageSize = NetWorkConstants.PAGE_SIZE,
@@ -36,7 +36,7 @@ class MovieRepositoryImpl @Inject constructor(
             },
         ).flow.map {
             //remove duplicate entries from api response
-            val movieMap = mutableSetOf<Int>()
+            val movieMap = mutableSetOf<Long>()
             it.filter { movie ->
                 if (movieMap.contains(movie.id)) {
                     false
