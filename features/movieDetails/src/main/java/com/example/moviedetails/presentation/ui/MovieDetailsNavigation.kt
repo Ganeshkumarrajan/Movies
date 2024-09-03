@@ -6,18 +6,18 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.common.navigation.Screen.DetailScreen.ROUTE_WITH_ARGUMENT
 import com.example.common.utils.NetWorkConstants.MOVIE_ID
-import com.example.common.navigation.Screen
 
-fun NavGraphBuilder.movieDetailsScreen(navController: NavController) {
+fun NavGraphBuilder.addMovieDetailsScreen(navController: NavController) {
     composable(
-        route = Screen.DetailScreen.route + "/{${MOVIE_ID}}",
+        route =ROUTE_WITH_ARGUMENT,
         arguments = listOf(navArgument(MOVIE_ID) { type = NavType.IntType })
     ) {
-        MovieDetailsScreen(it.arguments?.getInt(MOVIE_ID) ?: -1,
-            onNavigateBack = {
-                navController.popBackStack()
-            }
+        val movieId = it.arguments?.getInt(MOVIE_ID) ?: return@composable
+        MovieDetailsScreen(
+            movieId = movieId,
+            onNavigateBack = { navController.popBackStack() }
         )
     }
 }
