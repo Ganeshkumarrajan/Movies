@@ -28,6 +28,7 @@ import com.example.uielement.views.SpinnerView
 import com.example.uielement.views.SpinnerViewWithText
 import com.example.uielement.views.SubTitleText
 import com.example.uielement.views.TitleText
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -38,50 +39,54 @@ fun MoviesContent(
 ) {
     var showDialog by remember { mutableStateOf(true) }
     val listState = rememberLazyListState()
+    Column(modifier = Modifier.fillMaxSize()) {
+        SearchBar{
 
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-    ) {
-        if (moviePagingItem.itemCount > 0) {
-            LazyColumn(
-                state = listState,
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                items(moviePagingItem.itemCount) { index ->
-                    moviePagingItem[index]?.let { movie ->
-                        MovieItem(
-                            movie = movie,
-                            modifier = Modifier
-                                .animateItemPlacement()
-                                .fillMaxWidth()
-                                .padding(8.dp),
-                            onNavigateDetailScreen = onNavigateDetailScreen
-                        )
+        }
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+        ) {
+            if (moviePagingItem.itemCount > 0) {
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+                    items(moviePagingItem.itemCount) { index ->
+                        moviePagingItem[index]?.let { movie ->
+                            MovieItem(
+                                movie = movie,
+                                modifier = Modifier
+                                    .animateItemPlacement()
+                                    .fillMaxWidth()
+                                    .padding(8.dp),
+                                onNavigateDetailScreen = onNavigateDetailScreen
+                            )
+                        }
                     }
                 }
             }
-        }
 
-        when (val refreshState = moviePagingItem.loadState.refresh) {
-            is LoadState.Loading -> SpinnerViewWithText()
-            is LoadState.Error -> {
-                AnimatedVisibility(visible = showDialog) {
-                    ErrorView(
-                        errorMessage = refreshState.error.localizedMessage
-                            ?: stringResource(R.string.error_occurred),
-                        onRetryClick = { moviePagingItem.retry() },
-                        onDismiss = { showDialog = false }
-                    )
+            when (val refreshState = moviePagingItem.loadState.refresh) {
+                is LoadState.Loading -> SpinnerViewWithText()
+                is LoadState.Error -> {
+                   if( showDialog) {
+                        ErrorView(
+                            errorMessage = refreshState.error.localizedMessage
+                                ?: stringResource(R.string.error_occurred),
+                            onRetryClick = { moviePagingItem.retry() },
+                            onDismiss = { showDialog = false }
+                        )
+                    }
                 }
+
+                else -> Unit
             }
 
-            else -> Unit
-        }
-
-        if (moviePagingItem.loadState.append is LoadState.Loading) {
-            SpinnerView(modifier = Modifier.align(Alignment.BottomCenter))
+            if (moviePagingItem.loadState.append is LoadState.Loading) {
+                SpinnerView(modifier = Modifier.align(Alignment.BottomCenter))
+            }
         }
     }
 }
@@ -118,6 +123,27 @@ private fun MovieItem(
             }
         }
     }
+}
+
+@Composable
+fun SearchBar(onSearchQueryChanged: (String) -> Unit) {
+    var searchQuery by remember { mutableStateOf("") }
+    val coroutineScope = rememberCoroutineScope()
+
+    OutlinedTextField(
+        value = searchQuery,
+        onValueChange = { query ->
+            searchQuery = query
+            coroutineScope.launch {
+                onSearchQueryChanged(query)
+            }
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        label = { Text(text = "search") },
+        singleLine = true,
+    )
 }
 
 @Composable
