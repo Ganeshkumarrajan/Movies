@@ -13,8 +13,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,11 +37,13 @@ class MoviesViewModel @Inject constructor(
     }
 
     private fun getMovies() {
-        moviesUseCases.getMoviesUseCase().cachedIn(viewModelScope).onEach {
-            _state.value = it.map { movie -> uiMapper.toUiModel(movie) }
-        }.launchIn(viewModelScope)
+        viewModelScope.launch {
+            moviesUseCases.getMoviesUseCase()
+                .cachedIn(viewModelScope)
+                .map { it.map(uiMapper::toUiModel) }
+                .onEach { _state.value = it }
+                .launchIn(viewModelScope)
+        }
     }
 
 }
-
-

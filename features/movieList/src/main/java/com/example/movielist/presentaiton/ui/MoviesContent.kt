@@ -29,7 +29,6 @@ import com.example.uielement.views.SpinnerViewWithText
 import com.example.uielement.views.SubTitleText
 import com.example.uielement.views.TitleText
 
-
 @Composable
 fun MoviesContent(
     modifier: Modifier = Modifier,
@@ -48,10 +47,10 @@ fun MoviesContent(
             listState = listState,
             onNavigateDetailScreen = onNavigateDetailScreen
         )
+
         MovieLoadingState(movies = movies)
     }
 }
-
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -79,7 +78,6 @@ fun MovieList(
         }
     }
 }
-
 
 @Composable
 fun MovieLoadingState(movies: LazyPagingItems<MovieUIModel>) {
@@ -152,7 +150,6 @@ private fun MovieImage(movie: MovieUIModel) {
         movie.image,
     )
 }
-
 
 @Preview(showBackground = true)
 @Composable

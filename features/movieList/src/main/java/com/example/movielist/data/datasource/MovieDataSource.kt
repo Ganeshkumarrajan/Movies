@@ -18,7 +18,7 @@ class MovieDataSource(
         val nextKey = page + 1
         return try {
             withContext(defaultDispatcher) {
-                val response = apiService.getListOfTrendingMovies(page = page)
+                val response = apiService.getMovies(page = page)
                 LoadResult.Page(
                     data = response.results ?: emptyList(),
                     nextKey = nextKey,
