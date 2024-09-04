@@ -12,8 +12,7 @@ fun NavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = Screen.MoviesScreen.route,
-
-        ) {
+    ) {
         addMoviesScreen(navController)
         addMovieDetailsScreen(navController)
     }

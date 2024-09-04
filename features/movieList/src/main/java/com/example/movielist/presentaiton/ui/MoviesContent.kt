@@ -3,13 +3,26 @@ package com.example.movielist.presentaiton.ui
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,19 +55,19 @@ fun MoviesContent(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        MovieList(
+        AddMovieList(
             movies = movies,
             listState = listState,
             onNavigateDetailScreen = onNavigateDetailScreen
         )
 
-        MovieLoadingState(movies = movies)
+        AddMovieLoadingState(movies = movies)
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MovieList(
+fun AddMovieList(
     movies: LazyPagingItems<MovieUIModel>,
     listState: LazyListState,
     onNavigateDetailScreen: (String) -> Unit
@@ -66,7 +79,7 @@ fun MovieList(
         ) {
             items(movies.itemCount) { index ->
                 movies[index]?.let { movie ->
-                    MovieItem(
+                    AddMovieItem(
                         movie = movie,
                         modifier = Modifier
                             .animateItemPlacement()
@@ -80,7 +93,7 @@ fun MovieList(
 }
 
 @Composable
-fun MovieLoadingState(movies: LazyPagingItems<MovieUIModel>) {
+fun AddMovieLoadingState(movies: LazyPagingItems<MovieUIModel>) {
     Box(modifier = Modifier.fillMaxSize()) {
         when (val refreshState = movies.loadState.refresh) {
             is LoadState.Loading -> SpinnerViewWithText()
@@ -107,7 +120,7 @@ fun MovieLoadingState(movies: LazyPagingItems<MovieUIModel>) {
 }
 
 @Composable
-private fun MovieItem(
+private fun AddMovieItem(
     movie: MovieUIModel,
     modifier: Modifier = Modifier,
     onNavigateDetailScreen: (String) -> Unit
@@ -126,7 +139,7 @@ private fun MovieItem(
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            MovieImage(movie)
+            AddMovieImage(movie)
             Spacer(modifier = Modifier.width(10.dp))
             Column {
                 TitleText(title = movie.title)
@@ -141,7 +154,7 @@ private fun MovieItem(
 }
 
 @Composable
-private fun MovieImage(movie: MovieUIModel) {
+private fun AddMovieImage(movie: MovieUIModel) {
     ImageLoader(
         Modifier
             .size(100.dp, 150.dp)
@@ -161,7 +174,8 @@ fun MovieItemPreview() {
         year = "2026",
         image = "https://test"
     )
-    MovieItem(movie = movie,
+    AddMovieItem(
+        movie = movie,
         modifier = Modifier
     ) {}
 }
@@ -176,5 +190,5 @@ fun MovieImagePreview() {
         year = "2026",
         image = "https://test"
     )
-    MovieImage(movie = movie)
+    AddMovieImage(movie = movie)
 }

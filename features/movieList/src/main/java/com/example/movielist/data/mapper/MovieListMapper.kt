@@ -8,9 +8,9 @@ import javax.inject.Inject
 class MovieListMapper @Inject constructor() : DomainMapper<ResultDTO, MovieDomain> {
     override fun toDomain(entity: ResultDTO): MovieDomain =
         MovieDomain(
-            id = entity.id, title = entity.title ?: "",
-            image = entity.posterPath ?: "",
-            description = entity.overview ?: "",
-            year = entity.releaseDate ?: ""
+            id = entity.id, title = entity.title.orEmpty(),
+            image = entity.posterPath.orEmpty(),
+            description = entity.overview.orEmpty(),
+            year = entity.releaseDate.orEmpty()
         )
 }

@@ -6,7 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface MovieListAPIService {
-
     @GET("discover/movie")
     suspend fun getMovies(
         @Query("api_key") apiKey: String = NetWorkConstants.API_KEY,

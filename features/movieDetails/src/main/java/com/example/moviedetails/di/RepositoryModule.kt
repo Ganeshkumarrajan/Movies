@@ -3,7 +3,7 @@ package com.example.moviedetails.di
 import com.example.common.mapper.DomainMapper
 import com.example.common.mapper.UIMapper
 import com.example.moviedetails.data.mapper.MovieDetailsDomainMapper
-import com.example.moviedetails.data.model.MovieDetail
+import com.example.moviedetails.data.model.MovieDetailDTO
 import com.example.moviedetails.data.repository.MovieDetailsRepositoryImpl
 import com.example.moviedetails.data.service.MovieDetailsAPIService
 import com.example.moviedetails.domain.model.MovieDetailsDomain
@@ -35,7 +35,7 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideMovieDetailsMapper(): DomainMapper<MovieDetail, MovieDetailsDomain> {
+    fun provideMovieDetailsMapper(): DomainMapper<MovieDetailDTO, MovieDetailsDomain> {
         return MovieDetailsDomainMapper()
     }
 
