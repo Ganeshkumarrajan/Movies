@@ -6,7 +6,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.moviedetails.presentation.viewModel.MovieDetailsViewModel
 
-
 @Composable
 fun MovieDetailsScreen(movieId: Int, onNavigateBack: () -> Unit) {
 
@@ -15,7 +14,8 @@ fun MovieDetailsScreen(movieId: Int, onNavigateBack: () -> Unit) {
 
     MovieDetailsContent(
         state = state,
-        onNavigateBack = onNavigateBack, onRetry = {
+        onNavigateBack = onNavigateBack,
+        onRetry = {
             viewModel.onEvent(MovieDetailsEvents.GetMovieDetails(movieId))
         }
     )

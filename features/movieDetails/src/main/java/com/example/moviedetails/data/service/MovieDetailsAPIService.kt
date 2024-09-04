@@ -1,7 +1,7 @@
 package com.example.moviedetails.data.service
 
 import com.example.common.utils.NetWorkConstants
-import com.example.moviedetails.data.model.MovieDetail
+import com.example.moviedetails.data.model.MovieDetailDTO
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -12,5 +12,5 @@ interface MovieDetailsAPIService {
         @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String = NetWorkConstants.API_KEY,
         @Query("language") language: String = NetWorkConstants.LANGUAGE,
-    ): MovieDetail
+    ): MovieDetailDTO
 }

@@ -6,7 +6,6 @@ import androidx.navigation.compose.composable
 import com.example.common.navigation.Screen
 import com.example.movielist.presentaiton.navigation.MoviesScreen
 
-
 fun NavGraphBuilder.addMoviesScreen(navController: NavController) {
     composable(Screen.MoviesScreen.route) {
         MoviesScreen(
