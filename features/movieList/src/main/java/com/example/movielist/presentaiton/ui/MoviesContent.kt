@@ -1,6 +1,5 @@
 package com.example.movielist.presentaiton.ui
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -65,7 +64,6 @@ fun MoviesContent(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AddMovieList(
     movies: LazyPagingItems<MovieUIModel>,
@@ -82,7 +80,7 @@ fun AddMovieList(
                     AddMovieItem(
                         movie = movie,
                         modifier = Modifier
-                            .animateItemPlacement()
+                            .animateItem(fadeInSpec = null, fadeOutSpec = null)
                             .padding(8.dp),
                         onNavigateDetailScreen = onNavigateDetailScreen
                     )
@@ -137,7 +135,6 @@ private fun AddMovieItem(
                     onNavigateDetailScreen(movie.id.toString())
                 }
                 .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
         ) {
             AddMovieImage(movie)
             Spacer(modifier = Modifier.width(10.dp))
