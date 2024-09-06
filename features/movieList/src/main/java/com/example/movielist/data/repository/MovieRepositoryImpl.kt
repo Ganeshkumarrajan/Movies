@@ -7,13 +7,15 @@ import androidx.paging.filter
 import androidx.paging.map
 import com.example.common.mapper.DomainMapper
 import com.example.common.utils.NetWorkConstants
-import com.example.movielist.data.service.MovieListAPIService
 import com.example.movielist.data.datasource.MovieDataSource
 import com.example.movielist.data.model.ResultDTO
+import com.example.movielist.data.service.MovieListAPIService
 import com.example.movielist.domain.model.MovieDomain
 import com.example.movielist.domain.repository.MovieRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -48,5 +50,13 @@ class MovieRepositoryImpl @Inject constructor(
                 mapper.toDomain(movie)
             }
         }
+    }
+
+    override suspend fun searchMovies(query: String): Flow<List<MovieDomain>> {
+        return flow {
+            val response = apiService.searchMovies(query = query)
+            emit(response.results?.map { mapper.toDomain(it) } ?: emptyList())
+
+        }.flowOn(defaultDispatcher)
     }
 }

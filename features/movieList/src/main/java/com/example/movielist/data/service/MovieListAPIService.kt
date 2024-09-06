@@ -12,4 +12,11 @@ interface MovieListAPIService {
         @Query("language") language: String = NetWorkConstants.LANGUAGE,
         @Query("page") page: Int = 1
     ): MovieDTO
+
+    @GET("search/movie")
+    suspend fun searchMovies(
+        @Query("api_key") apiKey: String = NetWorkConstants.API_KEY,
+        @Query("query") query: String,
+        @Query("language") language: String = NetWorkConstants.LANGUAGE
+    ): MovieDTO
 }
