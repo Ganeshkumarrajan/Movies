@@ -11,7 +11,7 @@ data class ResultDTO(
     val backdropPath: String?,
     @Json(name = "genre_ids")
     val genreIds: List<Int>?,
-    val id: Int,
+    val id: Long,
     @Json(name = "original_language")
     val originalLanguage: String?,
     @Json(name = "original_title")

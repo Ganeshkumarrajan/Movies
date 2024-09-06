@@ -1,15 +1,27 @@
 package com.example.movielist.presentaiton.ui
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,71 +40,85 @@ import com.example.uielement.views.SpinnerView
 import com.example.uielement.views.SpinnerViewWithText
 import com.example.uielement.views.SubTitleText
 import com.example.uielement.views.TitleText
-import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MoviesContent(
-    moviePagingItem: LazyPagingItems<MovieUIModel>,
     modifier: Modifier = Modifier,
+    movies: LazyPagingItems<MovieUIModel>,
     onNavigateDetailScreen: (String) -> Unit
 ) {
-    var showDialog by remember { mutableStateOf(true) }
     val listState = rememberLazyListState()
-    Column(modifier = Modifier.fillMaxSize()) {
-        SearchBar{
 
-        }
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+        AddMovieList(
+            movies = movies,
+            listState = listState,
+            onNavigateDetailScreen = onNavigateDetailScreen
+        )
+
+        AddMovieLoadingState(movies = movies)
+    }
+}
+
+@Composable
+fun AddMovieList(
+    movies: LazyPagingItems<MovieUIModel>,
+    listState: LazyListState,
+    onNavigateDetailScreen: (String) -> Unit
+) {
+    if (movies.itemCount > 0) {
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.fillMaxSize(),
         ) {
-            if (moviePagingItem.itemCount > 0) {
-                LazyColumn(
-                    state = listState,
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    items(moviePagingItem.itemCount) { index ->
-                        moviePagingItem[index]?.let { movie ->
-                            MovieItem(
-                                movie = movie,
-                                modifier = Modifier
-                                    .animateItemPlacement()
-                                    .fillMaxWidth()
-                                    .padding(8.dp),
-                                onNavigateDetailScreen = onNavigateDetailScreen
-                            )
-                        }
-                    }
+            items(movies.itemCount) { index ->
+                movies[index]?.let { movie ->
+                    AddMovieItem(
+                        movie = movie,
+                        modifier = Modifier
+                            .animateItem(fadeInSpec = null, fadeOutSpec = null)
+                            .padding(8.dp),
+                        onNavigateDetailScreen = onNavigateDetailScreen
+                    )
                 }
-            }
-
-            when (val refreshState = moviePagingItem.loadState.refresh) {
-                is LoadState.Loading -> SpinnerViewWithText()
-                is LoadState.Error -> {
-                   if( showDialog) {
-                        ErrorView(
-                            errorMessage = refreshState.error.localizedMessage
-                                ?: stringResource(R.string.error_occurred),
-                            onRetryClick = { moviePagingItem.retry() },
-                            onDismiss = { showDialog = false }
-                        )
-                    }
-                }
-
-                else -> Unit
-            }
-
-            if (moviePagingItem.loadState.append is LoadState.Loading) {
-                SpinnerView(modifier = Modifier.align(Alignment.BottomCenter))
             }
         }
     }
 }
 
 @Composable
-private fun MovieItem(
+fun AddMovieLoadingState(movies: LazyPagingItems<MovieUIModel>) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        when (val refreshState = movies.loadState.refresh) {
+            is LoadState.Loading -> SpinnerViewWithText()
+
+            is LoadState.Error -> {
+                var showDialog by remember { mutableStateOf(true) }
+                if (showDialog) {
+                    ErrorView(
+                        errorMessage = refreshState.error.localizedMessage
+                            ?: stringResource(R.string.error_occurred),
+                        onRetryClick = { movies.retry() },
+                        onDismiss = { showDialog = false }
+                    )
+                }
+            }
+
+            else -> Unit
+        }
+
+        if (movies.loadState.append is LoadState.Loading) {
+            SpinnerView(modifier = Modifier.align(Alignment.BottomCenter))
+        }
+    }
+}
+
+@Composable
+private fun AddMovieItem(
     movie: MovieUIModel,
     modifier: Modifier = Modifier,
     onNavigateDetailScreen: (String) -> Unit
@@ -109,9 +135,8 @@ private fun MovieItem(
                     onNavigateDetailScreen(movie.id.toString())
                 }
                 .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
         ) {
-            MovieImage(movie)
+            AddMovieImage(movie)
             Spacer(modifier = Modifier.width(10.dp))
             Column {
                 TitleText(title = movie.title)
@@ -126,28 +151,7 @@ private fun MovieItem(
 }
 
 @Composable
-fun SearchBar(onSearchQueryChanged: (String) -> Unit) {
-    var searchQuery by remember { mutableStateOf("") }
-    val coroutineScope = rememberCoroutineScope()
-
-    OutlinedTextField(
-        value = searchQuery,
-        onValueChange = { query ->
-            searchQuery = query
-            coroutineScope.launch {
-                onSearchQueryChanged(query)
-            }
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        label = { Text(text = "search") },
-        singleLine = true,
-    )
-}
-
-@Composable
-private fun MovieImage(movie: MovieUIModel) {
+private fun AddMovieImage(movie: MovieUIModel) {
     ImageLoader(
         Modifier
             .size(100.dp, 150.dp)
@@ -157,7 +161,6 @@ private fun MovieImage(movie: MovieUIModel) {
     )
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun MovieItemPreview() {
@@ -165,11 +168,13 @@ fun MovieItemPreview() {
         id = 1,
         title = "Sample Movie",
         description = "This is a sample movie description.",
-        year = "2023",
+        year = "2026",
         image = "https://test"
     )
-    MovieItem(movie = movie,
-        modifier = Modifier, {})
+    AddMovieItem(
+        movie = movie,
+        modifier = Modifier
+    ) {}
 }
 
 @Preview(showBackground = true)
@@ -179,8 +184,8 @@ fun MovieImagePreview() {
         id = 1,
         title = "Sample Movie",
         description = "This is a sample movie description.",
-        year = "2023",
+        year = "2026",
         image = "https://test"
     )
-    MovieImage(movie = movie)
+    AddMovieImage(movie = movie)
 }

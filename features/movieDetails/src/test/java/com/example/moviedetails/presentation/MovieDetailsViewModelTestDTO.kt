@@ -2,19 +2,19 @@ package com.example.moviedetails.presentation
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
-import com.example.common.utils.Result
 import com.example.common.mapper.UIMapper
-import com.example.moviedetails.utils.MainDispatcherRule
+import com.example.common.utils.Result
 import com.example.moviedetails.data.repository.MovieDetailsRepositoryImpl
 import com.example.moviedetails.domain.model.MovieDetailsDomain
 import com.example.moviedetails.domain.usecase.GetMovieDetailsUseCase
 import com.example.moviedetails.domain.usecase.MovieDetailsUseCases
-import com.example.moviedetails.utils.mockMovieDetail
-import com.example.moviedetails.utils.mockMovieDetailsUI
 import com.example.moviedetails.presentation.model.MovieDetailsUIState
 import com.example.moviedetails.presentation.model.MovieDetailsUi
 import com.example.moviedetails.presentation.ui.MovieDetailsEvents
 import com.example.moviedetails.presentation.viewModel.MovieDetailsViewModel
+import com.example.moviedetails.utils.MainDispatcherRule
+import com.example.moviedetails.utils.mockMovieDetailsDomain
+import com.example.moviedetails.utils.mockMovieDetailsUI
 import com.google.common.truth.Truth.assertThat
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
@@ -29,7 +29,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class MovieDetailsViewModelTest {
+class MovieDetailsViewModelTestDTO {
 
     @get:Rule(order = 0)
     val mockkRule = MockKRule(this)
@@ -38,15 +38,10 @@ class MovieDetailsViewModelTest {
     val mainDispatcherRule = MainDispatcherRule(StandardTestDispatcher())
 
     private lateinit var viewModel: MovieDetailsViewModel
-
     private var useCases: MovieDetailsUseCases = mockk()
-
     private var mapper: UIMapper<MovieDetailsDomain, MovieDetailsUi> = mockk()
-
     private var movieDetailsRepository: MovieDetailsRepositoryImpl = mockk()
-
     private val movieID = 1
-
     private val savedStateHandle: SavedStateHandle = SavedStateHandle()
 
     @Before
@@ -77,11 +72,11 @@ class MovieDetailsViewModelTest {
         coEvery {
             useCases.getMovieDetailsUseCase(movieID)
         } returns flow {
-            emit(Result.Success(mockMovieDetail))
+            emit(Result.Success(mockMovieDetailsDomain))
         }
 
         every {
-            mapper.toUiModel(mockMovieDetail)
+            mapper.toUiModel(mockMovieDetailsDomain)
         } returns mockMovieDetailsUI
 
         viewModel.onEvent(MovieDetailsEvents.GetMovieDetails(movieID))

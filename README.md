@@ -28,7 +28,7 @@ The project is structured as a multi-module application, following the principle
 - **Separation of Concerns:** The application is built with a clear separation of concerns, allowing each module to handle its specific responsibilities without overlap. This approach enhances readability and maintainability.
 
 ## Testing
-- **Unit Testing:** Unit tests are included for core components, such as the MovieDetailsViewModel. These tests validate that individual units of code perform as expected.
+- **Unit Testing:** Unit tests are included for core components, such as the ViewModel, repository and mapper classes. These tests validate that individual units of code perform as expected.
 
 - **UI Testing:** The project is designed to facilitate UI testing. The use of Jetpack Compose makes it straightforward to test UI components and interactions.
 

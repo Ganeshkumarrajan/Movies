@@ -2,8 +2,10 @@ package com.example.moviedetails.data.model
 
 import com.squareup.moshi.Json
 
-data class ProductionCountry(
-    @Json(name = "iso_3166_1")
+data class SpokenLanguageDTO(
+    @Json(name = "english_name")
+    val englishName: String?,
+    @Json(name = "iso_639_1")
     val iso: String?,
     val name: String?
 )
